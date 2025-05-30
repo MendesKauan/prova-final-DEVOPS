@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0 
+    restart: always 
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: ecommerce
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - network_prova_final
+
+  redis:
+    image: redis/redis-stack-server:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - network_prova_final
+
+  products:
+    build: ./produtos
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - network_prova_final
+
+  orders:
+    build: ./pedidos
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - network_prova_final
+
+  payments:
+    build: ./pagamento
+    restart: always
+    ports:
+      - "3003:3003"
+    depends_on:
+      - orders
+    networks:
+      - network_prova_final
+
+volumes:
+  db_data:
+
+networks:
+  network_prova_final:
+    driver: bridge
