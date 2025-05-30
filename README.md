@@ -49,3 +49,8 @@ Mas eles possuem dois comando a mais chamados **Build**, onde informamos o nome 
 ## Por fim para executar o docker-compose:
 1. Verifique se seu app do Docker está rodando 
 2. Execute `docker-compose up --build -d `
+
+Requisições para teste: 
+- http://localhost:3000/products
+- http://localhost:8000/order
+- http://localhost:3003/payment
